@@ -1,26 +1,50 @@
 .liste-taches {
   display: flex;
   flex-direction: column;
+  list-style: none;
   margin: 5px;
+  padding-left: 0;
 }
 
 .taches {
   padding: 5px;
+
   display: flex;
   justify-content: space-between;
   background-color: #bdbdbd;
 }
 
 .edit-tache {
-  display: flex;
+  display: inline-block;
 }
 
-.buttons {
-  display: flex;
+.edit-delete-buttons {
+  display: inline-block;
   justify-content: right;
   margin-left: 10px;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
-textarea {
+.edit-select {
+  vertical-align: top;
+  width: 100px;
+  height: 25px;
+  margin-left: 5px;
+}
+
+button {
+  width: 100px;
+  height: 25px;
+}
+
+.save-button {
+  width: 200px;
+  height: 25px;
+}
+
+.edit-textarea {
   resize: none;
+  height: 150px;
+  width: 350px;
 }

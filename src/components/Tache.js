@@ -1,4 +1,6 @@
 import { useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
+import moment from "moment";
 
 function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
   const options = ["A faire", "En cours", "Terminé"];
@@ -15,9 +17,15 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
   }
   function handleClickSave() {
     const newTasks = [...tasks];
-    newTasks[taskIndex].name = `${newTaskName}`;
-    newTasks[taskIndex].status = `${newTaskStatus}`;
-    updateTasks(newTasks);
+    const isChanged = newTaskName !== taskName || newTaskStatus !== taskStatus;
+    if (isChanged) {
+      newTasks[taskIndex].name = `${newTaskName}`;
+      newTasks[taskIndex].status = `${newTaskStatus}`;
+      newTasks[taskIndex].modificationDate = moment().format(
+        "MMMM Do YYYY, h:mm:ss a"
+      );
+      updateTasks(newTasks);
+    }
     setEditState(false);
   }
 
@@ -27,11 +35,13 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
         <li>
           {editState ? (
             <div className="edit-tache">
-              <textarea
+              <TextareaAutosize
+                className="edit-textarea"
                 value={newTaskName}
                 onChange={(e) => setNewTaskName(e.target.value)}
-              ></textarea>
+              ></TextareaAutosize>
               <select
+                className="edit-select"
                 value={newTaskStatus}
                 onChange={(e) => setNewTaskStatus(e.target.value)}
               >
@@ -46,19 +56,23 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
             `${taskName} - ${taskStatus}`
           )}
         </li>
-        <div className="buttons">
+        <div className="edit-delete-buttons">
           {!editState ? (
             <button onClick={() => handleClickEdit()}>Modifier</button>
           ) : (
-            <button onClick={() => handleClickSave()}>Sauvegarder</button>
+            <button className="save-button" onClick={() => handleClickSave()}>
+              Sauvegarder
+            </button>
           )}
 
-          <button
-            onClick={() => handleClickDelete(taskIndex)}
-            disabled={editState}
-          >
-            Supprimer
-          </button>
+          {!editState && (
+            <button
+              onClick={() => handleClickDelete(taskIndex)}
+              disabled={editState}
+            >
+              Supprimer
+            </button>
+          )}
         </div>
       </div>
     </div>

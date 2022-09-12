@@ -5,10 +5,23 @@
 }
 
 .tache-form-button {
+  height: 50px;
+  width: auto;
   margin-top: 15px;
   padding: 5px;
+}
+.tache-form-button:hover {
+  cursor: pointer;
 }
 
 .tache-form-options {
   margin-top: 15px;
+  padding: 20px;
+  background-color: #bdbdbd;
+}
+
+.tache-form-textarea {
+  resize: none;
+  width: auto;
+  height: 200px;
 }

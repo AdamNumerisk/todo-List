@@ -12,6 +12,19 @@
   padding-left: 50px;
   padding-bottom: 50px;
   padding-right: 50px;
+  margin: 10px;
   color: black;
   background-color: #efefef;
+}
+
+.blocks:nth-child(1) {
+  flex: 1;
+}
+
+.blocks:nth-child(2) {
+  flex: 2;
+}
+
+body {
+  background-color: #4b636e;
 }
