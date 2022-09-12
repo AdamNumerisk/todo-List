@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border: 2px solid black;
+  padding: 20px;
+}
+
+.blocks {
+  color: black;
+  background-color: lightskyblue;
+  border: 1px gray solid;
+  border-radius: 5px;
+  padding: 100px;
+}
