@@ -3,8 +3,8 @@ import "../styles/ListeTaches.css";
 
 function ListeTaches({ tasks, updateTasks }) {
   //const [editState, setEditState] = useState(false);
-  function handleClickDelete(taskName) {
-    updateTasks(tasks.filter((task) => task.name !== taskName));
+  function handleClickDelete(taskIndex) {
+    updateTasks(tasks.filter((task) => tasks.indexOf(task) !== taskIndex));
   }
 
   return (
@@ -16,9 +16,7 @@ function ListeTaches({ tasks, updateTasks }) {
             <li key={index}>
               {task.name} - {task.status}
             </li>
-            <button onClick={() => handleClickDelete(task.name)}>
-              Supprimer
-            </button>
+            <button onClick={() => handleClickDelete(index)}>Supprimer</button>
           </div>
         ))}
       </ul>

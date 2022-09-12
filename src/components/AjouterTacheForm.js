@@ -25,7 +25,7 @@ function AjouterTacheForm({ tasks, updateTasks }) {
       ></textarea>
 
       {options.map((option, index) => (
-        <div>
+        <div key={`${index}${option}`}>
           <input
             type="radio"
             name="statut"
