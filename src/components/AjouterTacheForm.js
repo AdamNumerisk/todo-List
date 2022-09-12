@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-function AjouterTacheForm({ tasks, updateTasks }) {
+function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
   const options = ["A faire", "En cours", "Terminé"];
-  const [taskName, setTaskName] = useState("Tache à faire...");
+
   const [taskStatus, setTaskStatus] = useState("");
 
   function addTask(taskName, taskStatus) {

@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  border: 2px solid black;
+
   padding: 20px;
+  background-color: #bdbdbd;
 }
 
 .blocks {
   color: black;
-  background-color: lightskyblue;
+  background-color: #efefef;
   border: 1px gray solid;
   border-radius: 5px;
   padding: 100px;

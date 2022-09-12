@@ -1,22 +1,21 @@
-//import { useState } from "react";
 import "../styles/ListeTaches.css";
+import Tache from "./Tache";
 
-function ListeTaches({ tasks, updateTasks }) {
-  //const [editState, setEditState] = useState(false);
-  function handleClickDelete(taskIndex) {
-    updateTasks(tasks.filter((task) => tasks.indexOf(task) !== taskIndex));
-  }
-
+function ListeTaches({ tasks, updateTasks, setTaskName }) {
   return (
     <div>
       <h2>Liste de tâches</h2>
       <ul>
-        {tasks.map((task, index) => (
-          <div className="taches">
-            <li key={index}>
-              {task.name} - {task.status}
-            </li>
-            <button onClick={() => handleClickDelete(index)}>Supprimer</button>
+        {tasks.map((task) => (
+          <div key={tasks.indexOf(task)}>
+            <Tache
+              taskName={task.name}
+              taskStatus={task.status}
+              updateTasks={updateTasks}
+              tasks={tasks}
+              taskIndex={tasks.indexOf(task)}
+              setTaskName={setTaskName}
+            ></Tache>
           </div>
         ))}
       </ul>
