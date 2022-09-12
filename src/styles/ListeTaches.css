@@ -1,5 +1,26 @@
+.liste-taches {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
 .taches {
   padding: 5px;
   display: flex;
   justify-content: space-between;
+  background-color: #bdbdbd;
+}
+
+.edit-tache {
+  display: flex;
+}
+
+.buttons {
+  display: flex;
+  justify-content: right;
+  margin-left: 10px;
+}
+
+textarea {
+  resize: none;
 }

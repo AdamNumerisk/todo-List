@@ -11,6 +11,7 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
   function handleClickEdit() {
     setEditState(true);
     setNewTaskName(taskName);
+    setNewTaskStatus(taskStatus);
   }
   function handleClickSave() {
     const newTasks = [...tasks];
@@ -21,39 +22,45 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
   }
 
   return (
-    <div className="taches">
-      <li>
-        {editState ? (
-          <div>
-            <textarea
-              value={newTaskName}
-              onChange={(e) => setNewTaskName(e.target.value)}
-            ></textarea>
-            <select
-              value={newTaskStatus}
-              onChange={(e) => setNewTaskStatus(e.target.value)}
-            >
-              {options.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : (
-          `${taskName} - ${taskStatus}`
-        )}
-      </li>
+    <div className="liste-taches">
+      <div className="taches">
+        <li>
+          {editState ? (
+            <div className="edit-tache">
+              <textarea
+                value={newTaskName}
+                onChange={(e) => setNewTaskName(e.target.value)}
+              ></textarea>
+              <select
+                value={newTaskStatus}
+                onChange={(e) => setNewTaskStatus(e.target.value)}
+              >
+                {options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            `${taskName} - ${taskStatus}`
+          )}
+        </li>
+        <div className="buttons">
+          {!editState ? (
+            <button onClick={() => handleClickEdit()}>Modifier</button>
+          ) : (
+            <button onClick={() => handleClickSave()}>Sauvegarder</button>
+          )}
 
-      {!editState ? (
-        <button onClick={() => handleClickEdit()}>Modifier</button>
-      ) : (
-        <button onClick={() => handleClickSave()}>Sauvegarder</button>
-      )}
-
-      <button onClick={() => handleClickDelete(taskIndex)} disabled={editState}>
-        Supprimer
-      </button>
+          <button
+            onClick={() => handleClickDelete(taskIndex)}
+            disabled={editState}
+          >
+            Supprimer
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

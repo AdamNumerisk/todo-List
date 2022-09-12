@@ -5,7 +5,7 @@ function ListeTaches({ tasks, updateTasks, setTaskName }) {
   return (
     <div>
       <h2>Liste de tâches</h2>
-      <ul>
+      <ul className="liste-taches">
         {tasks.map((task) => (
           <div key={tasks.indexOf(task)}>
             <Tache

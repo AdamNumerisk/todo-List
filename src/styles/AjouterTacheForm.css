@@ -1,0 +1,14 @@
+.ajouter-tache-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tache-form-button {
+  margin-top: 15px;
+  padding: 5px;
+}
+
+.tache-form-options {
+  margin-top: 15px;
+}

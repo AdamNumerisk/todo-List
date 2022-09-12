@@ -4,13 +4,14 @@
   justify-content: space-around;
 
   padding: 20px;
-  background-color: #bdbdbd;
+  background-color: #a7c0cd;
 }
 
 .blocks {
+  width: 500px;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  padding-right: 50px;
   color: black;
   background-color: #efefef;
-  border: 1px gray solid;
-  border-radius: 5px;
-  padding: 100px;
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/AjouterTacheForm.css";
 
 function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
   const options = ["A faire", "En cours", "Terminé"];
@@ -17,26 +18,30 @@ function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
   }
 
   return (
-    <div>
+    <div className="ajouter-tache-form">
       <h2>Ajouter une tâche</h2>
       <textarea
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
       ></textarea>
-
-      {options.map((option, index) => (
-        <div key={`${index}${option}`}>
-          <input
-            type="radio"
-            name="statut"
-            value={option}
-            checked={taskStatus === option}
-            onChange={(e) => setTaskStatus(e.target.value)}
-          />
-          <label for={option}>{option}</label>
-        </div>
-      ))}
-      <button onClick={() => addTask(taskName, taskStatus)}>
+      <div className="tache-form-options">
+        {options.map((option, index) => (
+          <div key={`${index}${option}`}>
+            <input
+              type="radio"
+              name="statut"
+              value={option}
+              checked={taskStatus === option}
+              onChange={(e) => setTaskStatus(e.target.value)}
+            />
+            <label for={option}>{option}</label>
+          </div>
+        ))}
+      </div>
+      <button
+        className="tache-form-button"
+        onClick={() => addTask(taskName, taskStatus)}
+      >
         Ajouter une tâche
       </button>
     </div>
