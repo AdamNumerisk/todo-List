@@ -20,7 +20,7 @@ function App() {
           ></AjouterTacheForm>
         </div>
         <div className="blocks">
-          <ListeTaches tasks={tasks}></ListeTaches>
+          <ListeTaches tasks={tasks} updateTasks={updateTasks}></ListeTaches>
         </div>
       </div>
     </div>
