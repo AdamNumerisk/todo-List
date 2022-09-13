@@ -15,6 +15,7 @@
   margin: 10px;
   color: black;
   background-color: #efefef;
+  border-radius: 2px;
 }
 
 .blocks:nth-child(1) {

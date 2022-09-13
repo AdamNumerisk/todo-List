@@ -4,7 +4,6 @@ import "../styles/AjouterTacheForm.css";
 
 function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
   const options = ["A faire", "En cours", "Terminé"];
-
   const [taskStatus, setTaskStatus] = useState("");
 
   function addTask(taskName, taskStatus) {
@@ -23,6 +22,8 @@ function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
           modificationDate: "-",
         },
       ]);
+      setTaskName("Tache à faire...");
+      setTaskStatus("");
     }
   }
   return (
