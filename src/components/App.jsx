@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AjouterTacheForm from "./AjouterTacheForm";
 import Header from "./Header";
-import ListeTaches from "./ListeTaches";
+import TaskList from "./TaskList";
 import "../styles/Layout.css";
 import "../styles/Header.css";
 
@@ -33,11 +33,11 @@ function App() {
           ></AjouterTacheForm>
         </div>
         <div className="blocks">
-          <ListeTaches
+          <TaskList
             tasks={tasks}
             updateTasks={updateTasks}
             setTaskName={setTaskName}
-          ></ListeTaches>
+          ></TaskList>
         </div>
       </div>
     </div>

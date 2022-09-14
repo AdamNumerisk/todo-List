@@ -1,30 +1,25 @@
 import {
-  createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
-  includesString,
   getFilteredRowModel,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
 import "../styles/Table.css";
-import "../styles/ListeTaches.css";
+import "../styles/TaskList.css";
 import EditButton2 from "./EditButton2";
 import EditTaskStatusSelect from "./EditTaskStatusSelect";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DeleteButton from "./DeleteButton";
 import SaveButton2 from "./SaveButton2";
 import moment from "moment";
 import TextareaAutosize from "react-textarea-autosize";
 
 function Table({ data, updateData }) {
-  const columnHelper = createColumnHelper();
   const [globalFilter, setGlobalFilter] = useState("");
+  const [sorting, setSorting] = useState([]);
   const [editableRowIndex, setEditableRowIndex] = useState([]);
-
-  function search(row, columnId, value) {
-    return row[columnId].includesString(value);
-  }
 
   const EditableCell = ({ getValue, row: { index } }) => {
     const initialValue = getValue();
@@ -90,35 +85,37 @@ function Table({ data, updateData }) {
   const defaultColumn = {
     cell: EditableCell,
   };
-  const columns = [
-    columnHelper.accessor("name", {
-      header: `Tâche`,
+
+  const columns = useMemo(() => [
+    {
+      header: "Tâche",
+      accessorKey: "name",
+      cell: EditableCell,
       footer: (info) => info.column.id,
-      enableColumnFilter: true,
-      enableGlobalFilter: true,
-      enableColumnFilters: true,
-      enableFilters: true,
-    }),
-    columnHelper.accessor("status", {
+      accessorFn: (obj) => obj.name,
+    },
+    {
       cell: EditableStatus,
       header: "Statut",
+      accessorKey: "status",
       footer: (info) => info.column.id,
-
-      size: 500,
-    }),
-    columnHelper.accessor("creationDate", {
-      cell: (info) => info.getValue(),
+      accessorFn: (obj) => obj.status,
+    },
+    {
+      cell: (creationDate) => creationDate?.getValue(),
       header: "Date de création",
+      accessorKey: "creationDate",
       footer: (info) => info.column.id,
-      size: 100,
-    }),
-    columnHelper.accessor("modificationDate", {
-      cell: (info) => info.getValue(),
+      accessorFn: (obj) => obj.creationDate,
+    },
+    {
+      cell: (modifDate) => modifDate?.getValue(),
       header: "Date de modification",
+      accessorKey: "modificationDate",
       footer: (info) => info.column.id,
-      size: 100,
-    }),
-    columnHelper.accessor("actions", {
+      accessorFn: (obj) => obj.modificationDate,
+    },
+    {
       cell: (row) =>
         !editableRowIndex.includes(row.row.index) ? (
           <div>
@@ -142,40 +139,60 @@ function Table({ data, updateData }) {
         ),
       header: "Actions",
       footer: (info) => info.column.id,
-      size: 200,
-    }),
-  ];
+    },
+  ]);
+
   const table = useReactTable({
     data,
     columns,
     defaultColumn,
-    globalFilterFn: includesString,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    enableGlobalFilter: true,
     state: {
       globalFilter,
+      sorting,
     },
     onGlobalFilterChange: setGlobalFilter,
+    onSortingChange: setSorting,
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
   return (
     <div className="p-2">
-      <input
-        value={globalFilter ?? ""}
-        onChange={(e) => setGlobalFilter(e.target.value)}
-      />
+      <label htmlFor="search">
+        Recherche par tâche :
+        <input
+          className="research-bar"
+          id="search"
+          value={globalFilter ?? ""}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+        />
+      </label>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
+                  {header.isPlaceholder ? null : (
+                    <div
+                      {...{
+                        className: header.column.getCanSort()
+                          ? "cursor-pointer select-none"
+                          : "",
+                        onClick: header.column.getToggleSortingHandler(),
+                      }}
+                    >
+                      {" "}
+                      {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+                      {{
+                        asc: " 🔼",
+                        desc: " 🔽",
+                      }[header.column.getIsSorted()] ?? null}
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>

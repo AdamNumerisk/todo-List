@@ -1,10 +1,10 @@
-import "../styles/ListeTaches.css";
+import "../styles/TaskList.css";
 
 //import Tache from "./Tache";
 
 import Table from "./Table";
 
-function ListeTaches({ tasks, updateTasks, setTaskName }) {
+function TaskList({ tasks, updateTasks, setTaskName }) {
   return (
     <div>
       <h2 className="liste-taches">Liste de tâches</h2>
@@ -29,4 +29,4 @@ function ListeTaches({ tasks, updateTasks, setTaskName }) {
   );
 }
 
-export default ListeTaches;
+export default TaskList;

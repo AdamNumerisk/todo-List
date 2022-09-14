@@ -5,7 +5,7 @@ import DeleteButton from "./DeleteButton";
 import SaveButton from "./SaveButton";
 import EditTaskStatusSelect from "./EditTaskStatusSelect";
 
-function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
+function Task({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
   const [editState, setEditState] = useState(false);
   const [newTaskName, setNewTaskName] = useState("");
   const [newTaskStatus, setNewTaskStatus] = useState("");
@@ -65,4 +65,4 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
   );
 }
 
-export default Tache;
+export default Task;
