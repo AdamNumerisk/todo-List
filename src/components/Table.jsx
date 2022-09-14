@@ -3,6 +3,8 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  includesString,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import "../styles/Table.css";
@@ -17,8 +19,12 @@ import TextareaAutosize from "react-textarea-autosize";
 
 function Table({ data, updateData }) {
   const columnHelper = createColumnHelper();
-
+  const [globalFilter, setGlobalFilter] = useState("");
   const [editableRowIndex, setEditableRowIndex] = useState([]);
+
+  function search(row, columnId, value) {
+    return row[columnId].includesString(value);
+  }
 
   const EditableCell = ({ getValue, row: { index } }) => {
     const initialValue = getValue();
@@ -86,9 +92,12 @@ function Table({ data, updateData }) {
   };
   const columns = [
     columnHelper.accessor("name", {
-      header: "Tâche",
+      header: `Tâche`,
       footer: (info) => info.column.id,
-      size: 500,
+      enableColumnFilter: true,
+      enableGlobalFilter: true,
+      enableColumnFilters: true,
+      enableFilters: true,
     }),
     columnHelper.accessor("status", {
       cell: EditableStatus,
@@ -140,11 +149,21 @@ function Table({ data, updateData }) {
     data,
     columns,
     defaultColumn,
-
+    globalFilterFn: includesString,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    enableGlobalFilter: true,
+    state: {
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
   });
   return (
     <div className="p-2">
+      <input
+        value={globalFilter ?? ""}
+        onChange={(e) => setGlobalFilter(e.target.value)}
+      />
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
