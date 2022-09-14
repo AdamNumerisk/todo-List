@@ -7,6 +7,7 @@ import "../styles/Header.css";
 
 function App() {
   const [taskName, setTaskName] = useState("Tache à faire...");
+  const [taskStatus, setTaskStatus] = useState("");
   const savedTasks = localStorage.getItem("tasks");
   const [tasks, updateTasks] = useState(
     savedTasks ? JSON.parse(savedTasks) : []
@@ -27,6 +28,8 @@ function App() {
             updateTasks={updateTasks}
             taskName={taskName}
             setTaskName={setTaskName}
+            taskStatus={taskStatus}
+            setTaskStatus={setTaskStatus}
           ></AjouterTacheForm>
         </div>
         <div className="blocks">

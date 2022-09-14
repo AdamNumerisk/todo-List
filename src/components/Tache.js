@@ -1,33 +1,14 @@
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import moment from "moment";
+import EditButton from "./EditButton";
+import DeleteButton from "./DeleteButton";
+import SaveButton from "./SaveButton";
+import EditTaskStatusSelect from "./EditTaskStatusSelect";
 
 function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
-  const options = ["A faire", "En cours", "Terminé"];
   const [editState, setEditState] = useState(false);
   const [newTaskName, setNewTaskName] = useState("");
   const [newTaskStatus, setNewTaskStatus] = useState("");
-  function handleClickDelete(taskIndex) {
-    updateTasks(tasks.filter((task) => tasks.indexOf(task) !== taskIndex));
-  }
-  function handleClickEdit() {
-    setEditState(true);
-    setNewTaskName(taskName);
-    setNewTaskStatus(taskStatus);
-  }
-  function handleClickSave() {
-    const newTasks = [...tasks];
-    const isChanged = newTaskName !== taskName || newTaskStatus !== taskStatus;
-    if (isChanged) {
-      newTasks[taskIndex].name = `${newTaskName}`;
-      newTasks[taskIndex].status = `${newTaskStatus}`;
-      newTasks[taskIndex].modificationDate = moment().format(
-        "MMMM Do YYYY, h:mm:ss a"
-      );
-      updateTasks(newTasks);
-    }
-    setEditState(false);
-  }
 
   return (
     <div className="liste-taches">
@@ -40,17 +21,10 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
                 value={newTaskName}
                 onChange={(e) => setNewTaskName(e.target.value)}
               ></TextareaAutosize>
-              <select
-                className="edit-select"
-                value={newTaskStatus}
-                onChange={(e) => setNewTaskStatus(e.target.value)}
-              >
-                {options.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
+              <EditTaskStatusSelect
+                newTaskStatus={newTaskStatus}
+                setNewTaskStatus={setNewTaskStatus}
+              ></EditTaskStatusSelect>
             </div>
           ) : (
             `${taskName} - ${taskStatus}`
@@ -58,20 +32,32 @@ function Tache({ taskName, taskStatus, updateTasks, tasks, taskIndex }) {
         </li>
         <div className="edit-delete-buttons">
           {!editState ? (
-            <button onClick={() => handleClickEdit()}>Modifier</button>
+            <EditButton
+              setEditState={setEditState}
+              setNewTaskName={setNewTaskName}
+              setNewTaskStatus={setNewTaskStatus}
+              taskName={taskName}
+              taskStatus={taskStatus}
+            ></EditButton>
           ) : (
-            <button className="save-button" onClick={() => handleClickSave()}>
-              Sauvegarder
-            </button>
+            <SaveButton
+              tasks={tasks}
+              newTaskName={newTaskName}
+              taskName={taskName}
+              newTaskStatus={newTaskStatus}
+              taskStatus={taskStatus}
+              taskIndex={taskIndex}
+              updateTasks={updateTasks}
+              setEditState={setEditState}
+            ></SaveButton>
           )}
 
           {!editState && (
-            <button
-              onClick={() => handleClickDelete(taskIndex)}
-              disabled={editState}
-            >
-              Supprimer
-            </button>
+            <DeleteButton
+              tasks={tasks}
+              updateTasks={updateTasks}
+              taskIndex={taskIndex}
+            ></DeleteButton>
           )}
         </div>
       </div>

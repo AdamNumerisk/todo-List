@@ -1,11 +1,17 @@
 import "../styles/ListeTaches.css";
-import Tache from "./Tache";
+
+//import Tache from "./Tache";
+
+import Table from "./Table";
 
 function ListeTaches({ tasks, updateTasks, setTaskName }) {
   return (
     <div>
-      <h2>Liste de tâches</h2>
-      <ul className="liste-taches">
+      <h2 className="liste-taches">Liste de tâches</h2>
+      <div>
+        <Table data={tasks} updateData={updateTasks}></Table>
+      </div>
+      {/*} <ul className="liste-taches">
         {tasks.map((task) => (
           <div key={tasks.indexOf(task)}>
             <Tache
@@ -18,7 +24,7 @@ function ListeTaches({ tasks, updateTasks, setTaskName }) {
             ></Tache>
           </div>
         ))}
-      </ul>
+        </ul> */}
     </div>
   );
 }

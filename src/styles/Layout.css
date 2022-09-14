@@ -23,7 +23,7 @@
 }
 
 .blocks:nth-child(2) {
-  flex: 2;
+  flex: 5;
 }
 
 body {

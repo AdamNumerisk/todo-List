@@ -1,10 +1,16 @@
 import moment from "moment";
-import { useState } from "react";
+
 import "../styles/AjouterTacheForm.css";
 
-function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
+function AjouterTacheForm({
+  tasks,
+  updateTasks,
+  taskName,
+  setTaskName,
+  taskStatus,
+  setTaskStatus,
+}) {
   const options = ["A faire", "En cours", "Terminé"];
-  const [taskStatus, setTaskStatus] = useState("");
 
   function addTask(taskName, taskStatus) {
     const isDefaultError = taskName === "Tache à faire...";
@@ -18,7 +24,7 @@ function AjouterTacheForm({ tasks, updateTasks, taskName, setTaskName }) {
         {
           name: taskName,
           status: taskStatus,
-          creationDate: moment().format("MMMM Do YYYY, h:mm:ss a"),
+          creationDate: `${moment().format("L")}`,
           modificationDate: "-",
         },
       ]);
