@@ -1,7 +1,7 @@
 import IconButton from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 
-function EditButton2({ setEditableRowIndex, rowIndex, editableRowIndex }) {
+function EditButton({ setEditableRowIndex, rowIndex, editableRowIndex }) {
   function handleClickEdit() {
     setEditableRowIndex([...editableRowIndex, rowIndex]);
   }
@@ -13,4 +13,4 @@ function EditButton2({ setEditableRowIndex, rowIndex, editableRowIndex }) {
   );
 }
 
-export default EditButton2;
+export default EditButton;

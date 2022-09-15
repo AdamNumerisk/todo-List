@@ -11,7 +11,9 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { Grid } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import Dashboard from "./Dashboard";
 import theme from "./theme";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [taskName, setTaskName] = useState("Tache à faire...");
@@ -51,11 +53,26 @@ function App() {
           </Grid>
 
           <Grid item xs={9} sx={{ mr: 2 }}>
-            <TaskList
-              tasks={tasks}
-              updateTasks={updateTasks}
-              setTaskName={setTaskName}
-            ></TaskList>
+            <Router>
+              <div>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <TaskList
+                        tasks={tasks}
+                        updateTasks={updateTasks}
+                        setTaskName={setTaskName}
+                      />
+                    }
+                  ></Route>
+                  <Route
+                    path="/dashboard"
+                    element={<Dashboard tasks={tasks} />}
+                  ></Route>
+                </Routes>
+              </div>
+            </Router>
           </Grid>
         </Grid>
       </div>

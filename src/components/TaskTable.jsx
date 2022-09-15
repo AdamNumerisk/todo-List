@@ -6,14 +6,13 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import "../styles/Table.css";
-import EditButton2 from "./EditButton2";
+import EditButton from "./EditButton";
 import EditTaskStatusSelect from "./EditTaskStatusSelect";
 import { useEffect, useState } from "react";
 import DeleteButton from "./DeleteButton";
 import SaveButton2 from "./SaveButton2";
 import moment from "moment";
 import TextareaAutosize from "react-textarea-autosize";
-import TextField from "@mui/material/TextField";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -26,8 +25,7 @@ import { Grid } from "@mui/material";
 import StyledTableCell from "./StyledTableCell";
 import StyledTableRow from "./StyledTableRow";
 
-function TaskTable({ data, updateData }) {
-  const [globalFilter, setGlobalFilter] = useState("");
+function TaskTable({ data, updateData, globalFilter, setGlobalFilter }) {
   const [sorting, setSorting] = useState([]);
   const [editableRowIndex, setEditableRowIndex] = useState([]);
 
@@ -130,11 +128,11 @@ function TaskTable({ data, updateData }) {
         !editableRowIndex.includes(row.row.index) ? (
           <Grid container direction="row" wrap="nowrap" justifyContent="center">
             <Grid item>
-              <EditButton2
+              <EditButton
                 setEditableRowIndex={setEditableRowIndex}
                 rowIndex={row.row.index}
                 editableRowIndex={editableRowIndex}
-              ></EditButton2>
+              ></EditButton>
             </Grid>
             <Grid item>
               <DeleteButton
@@ -174,14 +172,6 @@ function TaskTable({ data, updateData }) {
   });
   return (
     <div className="p-2">
-      <TextField
-        sx={{ my: 2, width: 400 }}
-        id="search"
-        label="Recherche"
-        value={globalFilter ?? ""}
-        onChange={(e) => setGlobalFilter(e.target.value)}
-        size="small"
-      ></TextField>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>

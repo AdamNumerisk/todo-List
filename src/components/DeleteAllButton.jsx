@@ -6,7 +6,7 @@ function DeleteAllButton({ updateTasks }) {
     updateTasks(emptyTasks);
   }
   return (
-    <Button variant="contained" onClick={() => handleClick()}>
+    <Button size="medium" variant="contained" onClick={() => handleClick()}>
       Tout supprimer
     </Button>
   );

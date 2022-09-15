@@ -47,7 +47,7 @@ function AjouterTacheForm({
   return (
     <Card>
       <CardContent>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom align="center">
           Ajouter une tâche
         </Typography>
 
