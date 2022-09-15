@@ -3,7 +3,7 @@ import { Typography, Box } from "@mui/material";
 function Header() {
   return (
     <Box>
-      <Typography variant="h1">Todo-List</Typography>
+      <Typography variant="h2">Todo-List</Typography>
     </Box>
   );
 }

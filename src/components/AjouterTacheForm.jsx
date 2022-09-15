@@ -2,7 +2,6 @@ import moment from "moment";
 import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
-
 import "../styles/AjouterTacheForm.css";
 import {
   Card,
@@ -59,7 +58,7 @@ function AjouterTacheForm({
           onChange={(e) => setTaskName(e.target.value)}
         ></TextField>
 
-        <FormControl>
+        <FormControl sx={{ ml: 2 }}>
           <FormLabel id="status-group-label">Statut</FormLabel>
           <RadioGroup
             aria-labelledby="status-group-label"
@@ -79,6 +78,8 @@ function AjouterTacheForm({
       </CardContent>
       <CardActions>
         <Button
+          sx={{ mx: 1, mb: 1 }}
+          fullWidth
           variant="contained"
           className="tache-form-button"
           onClick={() => addTask(taskName, taskStatus)}

@@ -5,7 +5,6 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-
 import "../styles/Table.css";
 import EditButton2 from "./EditButton2";
 import EditTaskStatusSelect from "./EditTaskStatusSelect";
@@ -176,7 +175,7 @@ function TaskTable({ data, updateData }) {
   return (
     <div className="p-2">
       <TextField
-        sx={{ mb: 1, width: 400 }}
+        sx={{ my: 2, width: 400 }}
         id="search"
         label="Recherche"
         value={globalFilter ?? ""}

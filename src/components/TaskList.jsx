@@ -1,11 +1,10 @@
-import { Typography, Card, CardContent } from "@mui/material";
+import { Typography, Card, CardContent, CardActions } from "@mui/material";
 import "../styles/TaskList.css";
-
-//import Tache from "./Tache";
-
+import DeleteAllButton from "./DeleteAllButton";
+import DeleteAllCompletedButton from "./DeleteAllCompletedButton";
 import TaskTable from "./TaskTable";
 
-function TaskList({ tasks, updateTasks, setTaskName }) {
+function TaskList({ tasks, updateTasks }) {
   return (
     <Card>
       <CardContent>
@@ -15,6 +14,13 @@ function TaskList({ tasks, updateTasks, setTaskName }) {
           <TaskTable data={tasks} updateData={updateTasks}></TaskTable>
         </div>
       </CardContent>
+      <CardActions sx={{ ml: 1, mt: -1, mb: 1 }}>
+        <DeleteAllButton updateTasks={updateTasks}></DeleteAllButton>
+        <DeleteAllCompletedButton
+          tasks={tasks}
+          updateTasks={updateTasks}
+        ></DeleteAllCompletedButton>
+      </CardActions>
     </Card>
   );
 }
