@@ -1,19 +1,11 @@
-table {
-  border: 1px solid #bdbdbd;
-  border-collapse: collapse;
-  background-color: white;
-  overflow: hidden;
-}
-
-tbody {
-  border: 1px solid #bdbdbd;
-}
-
-td,
-th {
-  border: 2px solid #bdbdbd;
-  padding: 2px 4px;
+td {
   word-break: break-all;
+}
+
+thead {
+  display: "flex";
+  align-items: "center";
+  flex-wrap: "wrap";
 }
 
 th {
@@ -21,7 +13,7 @@ th {
 }
 
 th:nth-child(1) {
-  width: 50%;
+  width: 40%;
 }
 
 th:nth-child(2) {
@@ -29,26 +21,13 @@ th:nth-child(2) {
 }
 
 th:nth-child(3) {
-  width: 15%;
+  width: 20%;
 }
 
 th:nth-child(4) {
-  width: 15%;
+  width: 20%;
 }
 
 th:nth-child(5) {
   width: 100px;
-}
-
-tfoot {
-  color: gray;
-}
-
-tfoot th {
-  font-weight: normal;
-}
-
-.research-bar {
-  margin-left: 5px;
-  margin-bottom: 5px;
 }
