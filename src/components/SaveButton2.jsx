@@ -1,3 +1,6 @@
+import IconButton from "@mui/material/Button";
+import SaveIcon from "@mui/icons-material/Save";
+
 function SaveButton2({ setEditableRowIndex, editableRowIndex, taskIndex }) {
   function handleClickSave() {
     const newIndexes = editableRowIndex.filter((index) => index !== taskIndex);
@@ -6,9 +9,9 @@ function SaveButton2({ setEditableRowIndex, editableRowIndex, taskIndex }) {
   }
 
   return (
-    <button className="save-button" onClick={() => handleClickSave()}>
-      Sauvegarder
-    </button>
+    <IconButton className="save-button" onClick={() => handleClickSave()}>
+      <SaveIcon></SaveIcon>
+    </IconButton>
   );
 }
 

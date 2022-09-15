@@ -7,7 +7,6 @@ import {
 } from "@tanstack/react-table";
 
 import "../styles/Table.css";
-import "../styles/TaskList.css";
 import EditButton2 from "./EditButton2";
 import EditTaskStatusSelect from "./EditTaskStatusSelect";
 import { useEffect, useState } from "react";
@@ -25,6 +24,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Icon from "@mui/material/Icon";
 import { Grid } from "@mui/material";
+import StyledTableCell from "./StyledTableCell";
+import StyledTableRow from "./StyledTableRow";
 
 function TaskTable({ data, updateData }) {
   const [globalFilter, setGlobalFilter] = useState("");
@@ -55,12 +56,12 @@ function TaskTable({ data, updateData }) {
     const [value, setValue] = useState(initialValue);
     return editableRowIndex.includes(index) ? (
       <div>
-        {/*<input value={value} onChange={onChange} onBlur={onBlur}></input>*/}
         <TextareaAutosize
           className="edit-textarea"
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          size="small"
         ></TextareaAutosize>
       </div>
     ) : (
@@ -128,24 +129,30 @@ function TaskTable({ data, updateData }) {
     {
       cell: (row) =>
         !editableRowIndex.includes(row.row.index) ? (
-          <div>
-            <EditButton2
-              setEditableRowIndex={setEditableRowIndex}
-              rowIndex={row.row.index}
-              editableRowIndex={editableRowIndex}
-            ></EditButton2>
-            <DeleteButton
-              tasks={data}
-              updateTasks={updateData}
-              taskIndex={row.row.index}
-            ></DeleteButton>
-          </div>
+          <Grid container direction="row" wrap="nowrap" justifyContent="center">
+            <Grid item>
+              <EditButton2
+                setEditableRowIndex={setEditableRowIndex}
+                rowIndex={row.row.index}
+                editableRowIndex={editableRowIndex}
+              ></EditButton2>
+            </Grid>
+            <Grid item>
+              <DeleteButton
+                tasks={data}
+                updateTasks={updateData}
+                taskIndex={row.row.index}
+              ></DeleteButton>
+            </Grid>
+          </Grid>
         ) : (
-          <SaveButton2
-            setEditableRowIndex={setEditableRowIndex}
-            editableRowIndex={editableRowIndex}
-            taskIndex={row.row.index}
-          ></SaveButton2>
+          <Grid container direction="row" wrap="nowrap" justifyContent="center">
+            <SaveButton2
+              setEditableRowIndex={setEditableRowIndex}
+              editableRowIndex={editableRowIndex}
+              taskIndex={row.row.index}
+            ></SaveButton2>{" "}
+          </Grid>
         ),
       header: "Actions",
       footer: (info) => info.column.id,
@@ -168,22 +175,21 @@ function TaskTable({ data, updateData }) {
   });
   return (
     <div className="p-2">
-      <label htmlFor="search">
-        Recherche par tâche :
-        <TextField
-          id="search"
-          value={globalFilter ?? ""}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          variant="standard"
-        ></TextField>
-      </label>
+      <TextField
+        sx={{ mb: 1, width: 400 }}
+        id="search"
+        label="Recherche"
+        value={globalFilter ?? ""}
+        onChange={(e) => setGlobalFilter(e.target.value)}
+        size="small"
+      ></TextField>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableCell key={header.id}>
+                  <StyledTableCell key={header.id}>
                     {header.isPlaceholder ? null : (
                       <div
                         {...{
@@ -209,20 +215,20 @@ function TaskTable({ data, updateData }) {
                         </Grid>
                       </div>
                     )}
-                  </TableCell>
+                  </StyledTableCell>
                 ))}
               </TableRow>
             ))}
           </TableHead>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <StyledTableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
-              </TableRow>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>

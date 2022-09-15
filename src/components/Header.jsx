@@ -1,5 +1,11 @@
+import { Typography, Box } from "@mui/material";
+
 function Header() {
-  return <h1>Todo List</h1>;
+  return (
+    <Box>
+      <Typography variant="h1">Todo-List</Typography>
+    </Box>
+  );
 }
 
 export default Header;

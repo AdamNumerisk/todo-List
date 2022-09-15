@@ -31,16 +31,6 @@
   height: 25px;
 }
 
-button {
-  width: 100px;
-  height: 25px;
-}
-
-.save-button {
-  width: 100px;
-  height: 50px;
-}
-
 .edit-textarea {
   resize: none;
   width: 98%;

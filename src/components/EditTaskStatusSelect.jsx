@@ -1,3 +1,4 @@
+import { Menu, MenuItem, Select } from "@mui/material";
 import moment from "moment";
 
 function EditTaskStatusSelect({
@@ -20,18 +21,18 @@ function EditTaskStatusSelect({
     }
   };
   return (
-    <select
-      className="edit-select"
+    <Select
+      size="small"
       value={newTaskStatus}
       onChange={(e) => setNewTaskStatus(e.target.value)}
       onBlur={onBlur}
     >
       {options.map((opt) => (
-        <option key={opt} value={opt}>
+        <MenuItem key={opt} value={opt}>
           {opt}
-        </option>
+        </MenuItem>
       ))}
-    </select>
+    </Select>
   );
 }
 

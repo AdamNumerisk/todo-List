@@ -4,6 +4,16 @@ import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
 
 import "../styles/AjouterTacheForm.css";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 
 function AjouterTacheForm({
   tasks,
@@ -36,35 +46,47 @@ function AjouterTacheForm({
     }
   }
   return (
-    <div className="ajouter-tache-form">
-      <h2>Ajouter une tâche</h2>
-      <TextField
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-      ></TextField>
-      <div className="tache-form-options">
-        {options.map((option, index) => (
-          <div key={`${index}${option}`}>
-            <Radio
-              type="radio"
-              name="statut"
-              value={option}
-              id={option}
-              checked={taskStatus === option}
-              onChange={(e) => setTaskStatus(e.target.value)}
-            />
-            <label htmlFor={option}>{option}</label>
-          </div>
-        ))}
-      </div>
-      <Button
-        variant="contained"
-        className="tache-form-button"
-        onClick={() => addTask(taskName, taskStatus)}
-      >
-        Ajouter une tâche
-      </Button>
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h4" gutterBottom>
+          Ajouter une tâche
+        </Typography>
+
+        <TextField
+          sx={{ mb: 2 }}
+          fullWidth
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+        ></TextField>
+
+        <FormControl>
+          <FormLabel id="status-group-label">Statut</FormLabel>
+          <RadioGroup
+            aria-labelledby="status-group-label"
+            name="status-radio-group"
+          >
+            {options.map((option) => (
+              <FormControlLabel
+                value={option}
+                control={<Radio />}
+                label={option}
+                checked={taskStatus === option}
+                onChange={(e) => setTaskStatus(e.target.value)}
+              ></FormControlLabel>
+            ))}
+          </RadioGroup>
+        </FormControl>
+      </CardContent>
+      <CardActions>
+        <Button
+          variant="contained"
+          className="tache-form-button"
+          onClick={() => addTask(taskName, taskStatus)}
+        >
+          Ajouter une tâche
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
 
