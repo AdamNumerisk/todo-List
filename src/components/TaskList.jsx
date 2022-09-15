@@ -2,14 +2,14 @@ import "../styles/TaskList.css";
 
 //import Tache from "./Tache";
 
-import Table from "./Table";
+import TaskTable from "./TaskTable";
 
 function TaskList({ tasks, updateTasks, setTaskName }) {
   return (
     <div>
       <h2 className="liste-taches">Liste de tâches</h2>
       <div>
-        <Table data={tasks} updateData={updateTasks}></Table>
+        <TaskTable data={tasks} updateData={updateTasks}></TaskTable>
       </div>
       {/*} <ul className="liste-taches">
         {tasks.map((task) => (

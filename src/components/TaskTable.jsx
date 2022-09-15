@@ -10,13 +10,21 @@ import "../styles/Table.css";
 import "../styles/TaskList.css";
 import EditButton2 from "./EditButton2";
 import EditTaskStatusSelect from "./EditTaskStatusSelect";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import DeleteButton from "./DeleteButton";
 import SaveButton2 from "./SaveButton2";
 import moment from "moment";
 import TextareaAutosize from "react-textarea-autosize";
+import TextField from "@mui/material/TextField";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-function Table({ data, updateData }) {
+function TaskTable({ data, updateData }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState([]);
   const [editableRowIndex, setEditableRowIndex] = useState([]);
@@ -86,7 +94,7 @@ function Table({ data, updateData }) {
     cell: EditableCell,
   };
 
-  const columns = useMemo(() => [
+  const columns = [
     {
       header: "Tâche",
       accessorKey: "name",
@@ -140,7 +148,7 @@ function Table({ data, updateData }) {
       header: "Actions",
       footer: (info) => info.column.id,
     },
-  ]);
+  ];
 
   const table = useReactTable({
     data,
@@ -160,12 +168,12 @@ function Table({ data, updateData }) {
     <div className="p-2">
       <label htmlFor="search">
         Recherche par tâche :
-        <input
-          className="research-bar"
+        <TextField
           id="search"
           value={globalFilter ?? ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
-        />
+          variant="standard"
+        ></TextField>
       </label>
       <table>
         <thead>
@@ -231,4 +239,4 @@ function Table({ data, updateData }) {
   );
 }
 
-export default Table;
+export default TaskTable;

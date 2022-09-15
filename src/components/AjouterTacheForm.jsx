@@ -1,4 +1,7 @@
 import moment from "moment";
+import Button from "@mui/material/Button";
+import Radio from "@mui/material/Radio";
+import TextField from "@mui/material/TextField";
 
 import "../styles/AjouterTacheForm.css";
 
@@ -35,15 +38,14 @@ function AjouterTacheForm({
   return (
     <div className="ajouter-tache-form">
       <h2>Ajouter une tâche</h2>
-      <textarea
-        className="tache-form-textarea"
+      <TextField
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
-      ></textarea>
+      ></TextField>
       <div className="tache-form-options">
         {options.map((option, index) => (
           <div key={`${index}${option}`}>
-            <input
+            <Radio
               type="radio"
               name="statut"
               value={option}
@@ -55,12 +57,13 @@ function AjouterTacheForm({
           </div>
         ))}
       </div>
-      <button
+      <Button
+        variant="contained"
         className="tache-form-button"
         onClick={() => addTask(taskName, taskStatus)}
       >
         Ajouter une tâche
-      </button>
+      </Button>
     </div>
   );
 }
