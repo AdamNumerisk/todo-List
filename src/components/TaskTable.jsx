@@ -4,106 +4,71 @@ import {
   useReactTable,
   getFilteredRowModel,
   getSortedRowModel,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import "../styles/Table.css";
-import EditButton from "./EditButton";
-import EditTaskStatusSelect from "./EditTaskStatusSelect";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DeleteButton from "./DeleteButton";
-import SaveButton2 from "./SaveButton2";
-import moment from "moment";
-import TextareaAutosize from "react-textarea-autosize";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Icon from "@mui/material/Icon";
-import { Grid } from "@mui/material";
+import EditButton from "./EditButton";
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Icon,
+  Checkbox,
+} from "@mui/material";
 import StyledTableCell from "./StyledTableCell";
 import StyledTableRow from "./StyledTableRow";
+import StatusChip from "./StatusChip";
 
-function TaskTable({ data, updateData, globalFilter, setGlobalFilter }) {
+function TaskTable({
+  data,
+  updateData,
+  globalFilter,
+  setGlobalFilter,
+  rowSelection,
+  setRowSelection,
+}) {
   const [sorting, setSorting] = useState([]);
-  const [editableRowIndex, setEditableRowIndex] = useState([]);
-
-  const EditableCell = ({ getValue, row: { index } }) => {
-    const initialValue = getValue();
-    const onChange = (e) => {
-      setValue(e.target.value);
-    };
-
-    const onBlur = () => {
-      const isChanged = initialValue !== value;
-      if (isChanged) {
-        const newData = [...data];
-        newData[index].name = value;
-        newData[index].modificationDate = `${moment().format("L")}`;
-        updateData(newData);
-      }
-    };
-
-    // Sync valeur si changé à l'extérieur
-    useEffect(() => {
-      setValue(initialValue);
-    }, [initialValue]);
-
-    const [value, setValue] = useState(initialValue);
-    return editableRowIndex.includes(index) ? (
-      <div>
-        <TextareaAutosize
-          className="edit-textarea"
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
-          size="small"
-        ></TextareaAutosize>
-      </div>
-    ) : (
-      <div>{value}</div>
-    );
-  };
-
-  const EditableStatus = ({ getValue, row: { index } }) => {
-    const initialStatus = getValue();
-
-    // Sync valeur si changé à l'extérieur
-    useEffect(() => {
-      setStatus(initialStatus);
-    }, [initialStatus]);
-
-    const [status, setStatus] = useState(initialStatus);
-    return editableRowIndex.includes(index) ? (
-      <EditTaskStatusSelect
-        newTaskStatus={status}
-        setNewTaskStatus={setStatus}
-        initialStatus={initialStatus}
-        status={status}
-        data={data}
-        updateData={updateData}
-        index={index}
-      ></EditTaskStatusSelect>
-    ) : (
-      <div>{status}</div>
-    );
-  };
-
-  const defaultColumn = {
-    cell: EditableCell,
-  };
 
   const columns = [
     {
-      header: "Tâche",
+      header: (table) => (
+        <Checkbox
+          indeterminate={table.table.getIsSomeRowsSelected()}
+          checked={table.table.getIsAllRowsSelected()}
+          onChange={table.table.getToggleAllRowsSelectedHandler()}
+        ></Checkbox>
+      ),
+      cell: (row) => (
+        <Checkbox
+          checked={row.row.getIsSelected()}
+          indeterminate={row.row.getIsSomeSelected()}
+          onChange={row.row.getToggleSelectedHandler()}
+        ></Checkbox>
+      ),
+      accessorKey: "select",
+      footer: (info) => info.column.id,
+      enableSorting: false,
+    },
+    {
+      header: `Tâche`,
       accessorKey: "name",
-      cell: EditableCell,
+      cell: (taskName) => taskName?.getValue(),
       footer: (info) => info.column.id,
       accessorFn: (obj) => obj.name,
     },
     {
-      cell: EditableStatus,
+      cell: (taskStatus) => (
+        <div>
+          <StatusChip taskStatus={taskStatus?.getValue()}></StatusChip>
+        </div>
+      ),
       header: "Statut",
       accessorKey: "status",
       footer: (info) => info.column.id,
@@ -124,51 +89,45 @@ function TaskTable({ data, updateData, globalFilter, setGlobalFilter }) {
       accessorFn: (obj) => obj.modificationDate,
     },
     {
-      cell: (row) =>
-        !editableRowIndex.includes(row.row.index) ? (
-          <Grid container direction="row" wrap="nowrap" justifyContent="center">
-            <Grid item>
-              <EditButton
-                setEditableRowIndex={setEditableRowIndex}
-                rowIndex={row.row.index}
-                editableRowIndex={editableRowIndex}
-              ></EditButton>
-            </Grid>
-            <Grid item>
-              <DeleteButton
-                tasks={data}
-                updateTasks={updateData}
-                taskIndex={row.row.index}
-              ></DeleteButton>
-            </Grid>
-          </Grid>
-        ) : (
-          <Grid container direction="row" wrap="nowrap" justifyContent="center">
-            <SaveButton2
-              setEditableRowIndex={setEditableRowIndex}
-              editableRowIndex={editableRowIndex}
+      cell: (row) => (
+        <Grid container direction="row" wrap="nowrap" justifyContent="center">
+          <Grid item>
+            <EditButton
+              tasks={data}
+              updateTasks={updateData}
               taskIndex={row.row.index}
-            ></SaveButton2>{" "}
+            ></EditButton>
           </Grid>
-        ),
+          <Grid item>
+            <DeleteButton
+              tasks={data}
+              updateTasks={updateData}
+              taskIndex={row.row.index}
+            ></DeleteButton>
+          </Grid>
+        </Grid>
+      ),
       header: "Actions",
       footer: (info) => info.column.id,
+      disableSortBy: true,
     },
   ];
 
   const table = useReactTable({
     data,
     columns,
-    defaultColumn,
     getCoreRowModel: getCoreRowModel(),
     state: {
       globalFilter,
       sorting,
+      rowSelection,
     },
     onGlobalFilterChange: setGlobalFilter,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
   return (
     <div className="p-2">
@@ -195,11 +154,26 @@ function TaskTable({ data, updateData, globalFilter, setGlobalFilter }) {
                               header.getContext()
                             )}
                           </Grid>
+                          {console.log(sorting)}
                           <Grid item>
                             {{
-                              asc: <Icon>arrow_drop_up</Icon>,
-                              desc: <Icon>arrow_drop_down</Icon>,
-                            }[header.column.getIsSorted()] ?? null}
+                              asc: <Icon sx={{ mb: -1 }}>arrow_drop_up</Icon>,
+                              desc: (
+                                <Icon sx={{ mb: -1 }}>arrow_drop_down</Icon>
+                              ),
+                            }[header.column.getIsSorted()] ??
+                              (header.column.getCanSort() &&
+                              sorting.length === 0 ? (
+                                <Grid container direction="column">
+                                  {console.log(sorting)}
+                                  <Grid item>
+                                    <Icon sx={{ mb: -2 }}>arrow_drop_up</Icon>
+                                  </Grid>
+                                  <Grid item>
+                                    <Icon sx={{ mt: -1 }}>arrow_drop_down</Icon>
+                                  </Grid>
+                                </Grid>
+                              ) : null)}
                           </Grid>
                         </Grid>
                       </div>

@@ -8,7 +8,7 @@ function DeleteAllCompletedButton({ tasks, updateTasks }) {
     updateTasks(deletedFinishedTasks);
   }
   return (
-    <Button variant="contained" onClick={() => handleClick()}>
+    <Button color="secondary" variant="contained" onClick={() => handleClick()}>
       Supprimer les tâches terminées
     </Button>
   );

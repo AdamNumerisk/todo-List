@@ -23,7 +23,13 @@ function Dashboard({ tasks }) {
         </Typography>
         <Grid container direction="row-reverse">
           <Grid item>
-            <Button sx={{ my: 2 }} size="medium" variant="contained" href="/">
+            <Button
+              color="secondary"
+              sx={{ my: 2 }}
+              size="medium"
+              variant="contained"
+              href="/"
+            >
               Liste de tâches
             </Button>
           </Grid>

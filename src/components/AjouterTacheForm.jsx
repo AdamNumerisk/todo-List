@@ -7,12 +7,19 @@ import {
   Card,
   CardActions,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   FormLabel,
   RadioGroup,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+import AddTaskIcon from "@mui/icons-material/AddTask";
 
 function AjouterTacheForm({
   tasks,
@@ -23,9 +30,10 @@ function AjouterTacheForm({
   setTaskStatus,
 }) {
   const options = ["A faire", "En cours", "Terminé"];
+  const [addTaskOpen, setAddTaskOpen] = useState(false);
 
   function addTask(taskName, taskStatus) {
-    const isDefaultError = taskName === "Tache à faire...";
+    const isDefaultError = taskName === "";
     if (isDefaultError) {
       alert("Veuillez remplir le nom du tâche");
     } else if (!taskStatus) {
@@ -40,54 +48,91 @@ function AjouterTacheForm({
           modificationDate: "-",
         },
       ]);
-      setTaskName("Tache à faire...");
+      setTaskName("");
       setTaskStatus("");
     }
+    setAddTaskOpen(false);
   }
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h4" gutterBottom align="center">
-          Ajouter une tâche
-        </Typography>
-
-        <TextField
-          sx={{ mb: 2 }}
-          fullWidth
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
-        ></TextField>
-
-        <FormControl sx={{ ml: 2 }}>
-          <FormLabel id="status-group-label">Statut</FormLabel>
-          <RadioGroup
-            aria-labelledby="status-group-label"
-            name="status-radio-group"
+    <div>
+      <Card>
+        <CardContent>
+          <Typography variant="h4" align="center">
+            Menu
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button
+            color="secondary"
+            sx={{ mx: 1, my: 1 }}
+            variant="contained"
+            fullWidth
+            onClick={() => setAddTaskOpen(true)}
+            startIcon={<AddTaskIcon />}
           >
-            {options.map((option) => (
-              <FormControlLabel
-                value={option}
-                control={<Radio />}
-                label={option}
-                checked={taskStatus === option}
-                onChange={(e) => setTaskStatus(e.target.value)}
-              ></FormControlLabel>
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </CardContent>
-      <CardActions>
-        <Button
-          sx={{ mx: 1, mb: 1 }}
-          fullWidth
-          variant="contained"
-          className="tache-form-button"
-          onClick={() => addTask(taskName, taskStatus)}
-        >
-          Ajouter une tâche
-        </Button>
-      </CardActions>
-    </Card>
+            Ajouter une tâche
+          </Button>
+        </CardActions>
+      </Card>
+
+      <Dialog open={addTaskOpen}>
+        <DialogTitle>Ajouter une tâche</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Veuillez remplir un nom de tâche et son statut.
+          </DialogContentText>
+
+          <TextField
+            sx={{ mb: 2, mt: 1 }}
+            fullWidth
+            label="Tache à faire..."
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+          ></TextField>
+
+          <FormControl sx={{ ml: 2, mb: -1 }}>
+            <FormLabel id="status-group-label">Statut</FormLabel>
+            <RadioGroup
+              aria-labelledby="status-group-label"
+              name="status-radio-group"
+            >
+              {options.map((option) => (
+                <FormControlLabel
+                  key={option}
+                  value={option}
+                  control={<Radio />}
+                  label={option}
+                  checked={taskStatus === option}
+                  onChange={(e) => setTaskStatus(e.target.value)}
+                ></FormControlLabel>
+              ))}
+            </RadioGroup>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{ mb: 1, ml: 1 }}
+            color="secondary"
+            variant="contained"
+            size="large"
+            fullWidth
+            onClick={() => addTask(taskName, taskStatus)}
+          >
+            Ajouter une tâche
+          </Button>
+
+          <Button
+            sx={{ mb: 1, mr: 1 }}
+            color="secondary"
+            size="large"
+            variant="outlined"
+            onClick={() => setAddTaskOpen(false)}
+          >
+            Annuler
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
 

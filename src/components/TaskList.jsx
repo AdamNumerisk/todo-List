@@ -12,9 +12,11 @@ import DeleteAllButton from "./DeleteAllButton";
 import DeleteAllCompletedButton from "./DeleteAllCompletedButton";
 import TableSearchBar from "./TableSearchBar";
 import TaskTable from "./TaskTable";
+import DeletedAllSelectedButton from "./DeleteAllSelectedButton";
 
 function TaskList({ tasks, updateTasks }) {
   const [globalFilter, setGlobalFilter] = useState("");
+  const [rowSelection, setRowSelection] = useState([]);
 
   return (
     <Card>
@@ -37,6 +39,7 @@ function TaskList({ tasks, updateTasks }) {
           </Grid>
           <Grid item>
             <Button
+              color="secondary"
               sx={{ mb: -7 }}
               size="medium"
               variant="contained"
@@ -52,6 +55,8 @@ function TaskList({ tasks, updateTasks }) {
           updateData={updateTasks}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
         ></TaskTable>
       </CardContent>
       <CardActions sx={{ ml: 1, mt: -1, mb: 1 }}>
@@ -60,6 +65,12 @@ function TaskList({ tasks, updateTasks }) {
           tasks={tasks}
           updateTasks={updateTasks}
         ></DeleteAllCompletedButton>
+        <DeletedAllSelectedButton
+          tasks={tasks}
+          updateTasks={updateTasks}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+        ></DeletedAllSelectedButton>
       </CardActions>
     </Card>
   );
