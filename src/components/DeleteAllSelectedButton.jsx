@@ -1,20 +1,17 @@
 import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { taskDeletedSelected } from "../features/tasks/tasksSlice";
 
-function DeleteAllSelectedButton({
-  tasks,
-  updateTasks,
-  rowSelection,
-  setRowSelection,
-}) {
+function DeleteAllSelectedButton({ rowSelection, setRowSelection }) {
+  const dispatch = useDispatch();
+
   function handleClick() {
-    const deleteSelectedTasks = tasks.filter(
-      (task) => rowSelection[tasks.indexOf(task)] !== true
-    );
-    updateTasks(deleteSelectedTasks);
+    dispatch(taskDeletedSelected(rowSelection));
+
     setRowSelection([]);
   }
   return (
-    <Button color="secondary" variant="contained" onClick={() => handleClick()}>
+    <Button color="secondary" variant="contained" onClick={handleClick}>
       Supprimer les tâches sélectionnées
     </Button>
   );

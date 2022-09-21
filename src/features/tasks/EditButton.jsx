@@ -3,7 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EditDialog from "./EditDialog";
 import { useState } from "react";
 
-function EditButton({ tasks, updateTasks, taskIndex }) {
+function EditButton({ taskId }) {
   const [editOpen, setEditOpen] = useState(false);
 
   return (
@@ -12,11 +12,9 @@ function EditButton({ tasks, updateTasks, taskIndex }) {
         <EditIcon></EditIcon>
       </IconButton>
       <EditDialog
-        tasks={tasks}
-        updateTasks={updateTasks}
         open={editOpen}
         setOpen={setEditOpen}
-        taskIndex={taskIndex}
+        taskId={taskId}
       ></EditDialog>
     </div>
   );

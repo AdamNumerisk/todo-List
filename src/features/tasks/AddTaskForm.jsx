@@ -1,8 +1,7 @@
-import moment from "moment";
 import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
-import "../styles/AjouterTacheForm.css";
+import "../../styles/AddTaskForm.css";
 import {
   Card,
   CardActions,
@@ -20,39 +19,35 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AddTaskIcon from "@mui/icons-material/AddTask";
+import { useDispatch } from "react-redux";
+import { taskAdded } from "./tasksSlice";
 
-function AjouterTacheForm({
-  tasks,
-  updateTasks,
-  taskName,
-  setTaskName,
-  taskStatus,
-  setTaskStatus,
-}) {
+function AddTaskForm() {
   const options = ["A faire", "En cours", "Terminé"];
   const [addTaskOpen, setAddTaskOpen] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [taskStatus, setTaskStatus] = useState("");
 
-  function addTask(taskName, taskStatus) {
+  const dispatch = useDispatch();
+
+  function addTaskClicked() {
     const isDefaultError = taskName === "";
     if (isDefaultError) {
       alert("Veuillez remplir le nom du tâche");
-    } else if (!taskStatus) {
+    } else if (taskStatus === "") {
       alert("Veuillez choisir un statut de tâche");
     } else {
-      updateTasks([
-        ...tasks,
-        {
-          name: taskName,
-          status: taskStatus,
-          creationDate: `${moment().format("L")}`,
-          modificationDate: "-",
-        },
-      ]);
+      dispatch(taskAdded({ taskName, taskStatus }));
       setTaskName("");
       setTaskStatus("");
+      setAddTaskOpen(false);
     }
-    setAddTaskOpen(false);
   }
+
+  function onStatusChanged(e) {
+    setTaskStatus(e.target.value);
+  }
+
   return (
     <div>
       <Card>
@@ -103,7 +98,7 @@ function AjouterTacheForm({
                   control={<Radio />}
                   label={option}
                   checked={taskStatus === option}
-                  onChange={(e) => setTaskStatus(e.target.value)}
+                  onChange={onStatusChanged}
                 ></FormControlLabel>
               ))}
             </RadioGroup>
@@ -116,7 +111,7 @@ function AjouterTacheForm({
             variant="contained"
             size="large"
             fullWidth
-            onClick={() => addTask(taskName, taskStatus)}
+            onClick={addTaskClicked}
           >
             Ajouter une tâche
           </Button>
@@ -136,4 +131,4 @@ function AjouterTacheForm({
   );
 }
 
-export default AjouterTacheForm;
+export default AddTaskForm;

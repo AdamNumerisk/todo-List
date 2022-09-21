@@ -12,25 +12,24 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import moment from "moment";
+
 import React, { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
+import { useSelector, useDispatch } from "react-redux";
+import { taskEdited } from "./tasksSlice";
 
-function EditDialog({ tasks, updateTasks, open, setOpen, taskIndex }) {
+function EditDialog({ open, setOpen, taskId }) {
   const options = ["A faire", "En cours", "Terminé"];
-  const [newTaskName, setNewTaskName] = useState(tasks[taskIndex].name);
-  const [newTaskStatus, setNewTaskStatus] = useState(tasks[taskIndex].status);
-  function handleSave() {
-    const isChanged =
-      tasks[taskIndex].name !== newTaskName ||
-      tasks[taskIndex].status !== newTaskStatus;
+  const task = useSelector((state) =>
+    state.tasks.find((task) => task.id === taskId)
+  );
+  const [newTaskName, setNewTaskName] = useState(task.name);
+  const [newTaskStatus, setNewTaskStatus] = useState(task.status);
+  const dispatch = useDispatch();
 
-    if (isChanged) {
-      const newTasks = [...tasks];
-      newTasks[taskIndex].name = newTaskName;
-      newTasks[taskIndex].status = newTaskStatus;
-      newTasks[taskIndex].modificationDate = `${moment().format("L")}`;
-      updateTasks(newTasks);
+  function handleSave() {
+    if (newTaskName !== task.name || newTaskStatus !== task.status) {
+      dispatch(taskEdited({ taskId, newTaskName, newTaskStatus }));
     }
     setOpen(false);
   }

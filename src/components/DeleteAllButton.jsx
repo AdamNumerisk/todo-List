@@ -1,16 +1,18 @@
 import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { taskDeletedAll } from "../features/tasks/tasksSlice";
 
-function DeleteAllButton({ updateTasks }) {
+function DeleteAllButton() {
+  const dispatch = useDispatch();
   function handleClick() {
-    const emptyTasks = [];
-    updateTasks(emptyTasks);
+    dispatch(taskDeletedAll());
   }
   return (
     <Button
       color="secondary"
       size="medium"
       variant="contained"
-      onClick={() => handleClick()}
+      onClick={handleClick}
     >
       Tout supprimer
     </Button>

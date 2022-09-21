@@ -6,7 +6,7 @@ import {
   getSortedRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import "../styles/Table.css";
+import "../../styles/Table.css";
 import { useState } from "react";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
@@ -19,22 +19,22 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Icon,
   Checkbox,
 } from "@mui/material";
-import StyledTableCell from "./StyledTableCell";
-import StyledTableRow from "./StyledTableRow";
-import StatusChip from "./StatusChip";
+import StyledTableCell from "../../components/StyledTableCell";
+import StyledTableRow from "../../components/StyledTableRow";
+import StatusChip from "../../components/StatusChip";
+import Icon from "@mui/material/Icon";
+import { useSelector } from "react-redux";
 
 function TaskTable({
-  data,
-  updateData,
   globalFilter,
   setGlobalFilter,
   rowSelection,
   setRowSelection,
 }) {
   const [sorting, setSorting] = useState([]);
+  const data = useSelector((state) => state.tasks);
 
   const columns = [
     {
@@ -58,7 +58,7 @@ function TaskTable({
     },
     {
       header: `Tâche`,
-      accessorKey: "name",
+      accessorKey: "taskName",
       cell: (taskName) => taskName?.getValue(),
       footer: (info) => info.column.id,
       accessorFn: (obj) => obj.name,
@@ -70,7 +70,7 @@ function TaskTable({
         </div>
       ),
       header: "Statut",
-      accessorKey: "status",
+      accessorKey: "taskStatus",
       footer: (info) => info.column.id,
       accessorFn: (obj) => obj.status,
     },
@@ -89,21 +89,13 @@ function TaskTable({
       accessorFn: (obj) => obj.modificationDate,
     },
     {
-      cell: (row) => (
+      cell: (obj) => (
         <Grid container direction="row" wrap="nowrap" justifyContent="center">
           <Grid item>
-            <EditButton
-              tasks={data}
-              updateTasks={updateData}
-              taskIndex={row.row.index}
-            ></EditButton>
+            <EditButton taskId={obj.row.original.id}></EditButton>
           </Grid>
           <Grid item>
-            <DeleteButton
-              tasks={data}
-              updateTasks={updateData}
-              taskIndex={row.row.index}
-            ></DeleteButton>
+            <DeleteButton taskId={obj.row.original.id}></DeleteButton>
           </Grid>
         </Grid>
       ),
@@ -154,7 +146,6 @@ function TaskTable({
                               header.getContext()
                             )}
                           </Grid>
-                          {console.log(sorting)}
                           <Grid item>
                             {{
                               asc: <Icon sx={{ mb: -1 }}>arrow_drop_up</Icon>,
@@ -165,12 +156,15 @@ function TaskTable({
                               (header.column.getCanSort() &&
                               sorting.length === 0 ? (
                                 <Grid container direction="column">
-                                  {console.log(sorting)}
                                   <Grid item>
-                                    <Icon sx={{ mb: -2 }}>arrow_drop_up</Icon>
+                                    <Icon sx={{ mb: -2, mt: 0 }}>
+                                      arrow_drop_up
+                                    </Icon>
                                   </Grid>
                                   <Grid item>
-                                    <Icon sx={{ mt: -1 }}>arrow_drop_down</Icon>
+                                    <Icon sx={{ mt: -1, mb: 0 }}>
+                                      arrow_drop_down
+                                    </Icon>
                                   </Grid>
                                 </Grid>
                               ) : null)}

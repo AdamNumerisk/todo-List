@@ -7,9 +7,11 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import theme from "./theme";
 
-function Dashboard({ tasks }) {
+function Dashboard() {
+  const tasks = useSelector((state) => state.tasks);
   function getTodo(option) {
     const todo = tasks.filter((task) => task.status === option);
     const todoCount = todo.length;

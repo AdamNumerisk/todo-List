@@ -7,16 +7,18 @@ import {
   Grid,
 } from "@mui/material";
 import { useState } from "react";
-import "../styles/TaskList.css";
-import DeleteAllButton from "./DeleteAllButton";
-import DeleteAllCompletedButton from "./DeleteAllCompletedButton";
-import TableSearchBar from "./TableSearchBar";
+import "../../styles/TaskList.css";
+import DeleteAllButton from "../../components/DeleteAllButton";
+import DeleteAllCompletedButton from "../../components/DeleteAllCompletedButton";
+import TableSearchBar from "../../components/TableSearchBar";
 import TaskTable from "./TaskTable";
-import DeletedAllSelectedButton from "./DeleteAllSelectedButton";
+import DeletedAllSelectedButton from "../../components/DeleteAllSelectedButton";
+import { useSelector } from "react-redux";
 
-function TaskList({ tasks, updateTasks }) {
+function TaskList({ updateTasks }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowSelection, setRowSelection] = useState([]);
+  const tasks = useSelector((state) => state.tasks);
 
   return (
     <Card>
@@ -60,11 +62,8 @@ function TaskList({ tasks, updateTasks }) {
         ></TaskTable>
       </CardContent>
       <CardActions sx={{ ml: 1, mt: -1, mb: 1 }}>
-        <DeleteAllButton updateTasks={updateTasks}></DeleteAllButton>
-        <DeleteAllCompletedButton
-          tasks={tasks}
-          updateTasks={updateTasks}
-        ></DeleteAllCompletedButton>
+        <DeleteAllButton></DeleteAllButton>
+        <DeleteAllCompletedButton></DeleteAllCompletedButton>
         <DeletedAllSelectedButton
           tasks={tasks}
           updateTasks={updateTasks}

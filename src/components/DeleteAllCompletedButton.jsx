@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { taskDeletedCompleted } from "../features/tasks/tasksSlice";
 
-function DeleteAllCompletedButton({ tasks, updateTasks }) {
+function DeleteAllCompletedButton() {
+  const dispatch = useDispatch();
   function handleClick() {
-    const deletedFinishedTasks = tasks.filter(
-      (task) => task.status !== "Terminé"
-    );
-    updateTasks(deletedFinishedTasks);
+    dispatch(taskDeletedCompleted());
   }
   return (
     <Button color="secondary" variant="contained" onClick={() => handleClick()}>

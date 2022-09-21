@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import AjouterTacheForm from "./AjouterTacheForm";
+import AddTaskForm from "../features/tasks/AddTaskForm";
 import Header from "./Header";
-import TaskList from "./TaskList";
+import TaskList from "../features/tasks/TaskList";
 import "../styles/Layout.css";
 import "../styles/Header.css";
 import "../styles/App.css";
@@ -17,16 +16,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/system";
 
 function App() {
-  const [taskName, setTaskName] = useState("");
-  const [taskStatus, setTaskStatus] = useState("");
-  const savedTasks = localStorage.getItem("tasks");
-  const [tasks, updateTasks] = useState(
-    savedTasks ? JSON.parse(savedTasks) : []
-  );
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
   return (
     <div style={{ height: "100%" }}>
       <CssBaseline />
@@ -55,34 +44,15 @@ function App() {
               sx={{ my: 0, mb: 2 }}
             >
               <Grid item xs={2} sx={{ ml: 2, mb: 2 }}>
-                <AjouterTacheForm
-                  tasks={tasks}
-                  updateTasks={updateTasks}
-                  taskName={taskName}
-                  setTaskName={setTaskName}
-                  taskStatus={taskStatus}
-                  setTaskStatus={setTaskStatus}
-                ></AjouterTacheForm>
+                <AddTaskForm></AddTaskForm>
               </Grid>
 
               <Grid item xs={10} sx={{ mr: 2, mb: 2 }}>
                 <Router>
                   <div>
                     <Routes>
-                      <Route
-                        path="/"
-                        element={
-                          <TaskList
-                            tasks={tasks}
-                            updateTasks={updateTasks}
-                            setTaskName={setTaskName}
-                          />
-                        }
-                      ></Route>
-                      <Route
-                        path="/dashboard"
-                        element={<Dashboard tasks={tasks} />}
-                      ></Route>
+                      <Route path="/" element={<TaskList />}></Route>
+                      <Route path="/dashboard" element={<Dashboard />}></Route>
                     </Routes>
                   </div>
                 </Router>
