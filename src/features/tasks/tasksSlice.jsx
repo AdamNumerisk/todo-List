@@ -14,52 +14,58 @@ const initialState = [
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  taskAdded: {
-    reducer(state, action) {
-      state.push(action.payload);
+  reducers: {
+    taskAdded: {
+      reducer(state, action) {
+        state.push(action.payload);
+      },
+      prepare(payload) {
+        return {
+          payload: {
+            id: nanoid(),
+            name: payload.taskName,
+            status: payload.taskStatus,
+            creationDate: moment().format("L"),
+            modificationDate: "-",
+          },
+        };
+      },
     },
-    prepare(payload) {
-      return {
-        payload: {
-          id: nanoid(),
-          name: payload.taskName,
-          status: payload.taskStatus,
-          creationDate: moment().format("L"),
-          modificationDate: "-",
-        },
-      };
+    taskEdited: {
+      reducer(state, action) {
+        const task = state.find((task) => task.id === action.payload.id);
+        task.name = action.payload.name;
+        task.status = action.payload.status;
+        task.modificationDate = action.payload.modificationDate;
+      },
+      prepare(payload) {
+        return {
+          payload: {
+            id: payload.taskId,
+            name: payload.newTaskName,
+            status: payload.newTaskStatus,
+            modificationDate: moment().format("L"),
+          },
+        };
+      },
     },
-  },
-  taskEdited: {
-    reducer(state, action) {
-      const task = state.find((task) => task.id === action.payload.id);
-      task.name = action.payload.name;
-      task.status = action.payload.status;
-      task.modificationDate = action.payload.modificationDate;
+    taskDeleted(state, action) {
+      const indexToDelete = state
+        .map((task) => task.id)
+        .indexOf(action.payload);
+      state.splice(indexToDelete, 1);
     },
-    prepare(payload) {
-      return {
-        payload: {
-          id: payload.taskId,
-          name: payload.newTaskName,
-          status: payload.newTaskStatus,
-          modificationDate: moment().format("L"),
-        },
-      };
+    taskDeletedAll(state) {
+      state.splice(0, state.length);
     },
-  },
-  taskDeleted(state, action) {
-    const indexToDelete = state.map((task) => task.id).indexOf(action.payload);
-    state.splice(indexToDelete, 1);
-  },
-  taskDeletedAll(state) {
-    state.splice(0, state.length);
-  },
-  taskDeletedCompleted(state) {
-    return state.filter((task) => task.status !== "Terminé");
-  },
-  taskDeletedSelected(state, action) {
-    return state.filter((task) => action.payload[state.indexOf(task)] !== true);
+    taskDeletedCompleted(state) {
+      return state.filter((task) => task.status !== "Terminé");
+    },
+    taskDeletedSelected(state, action) {
+      return state.filter(
+        (task) => action.payload[state.indexOf(task)] !== true
+      );
+    },
   },
 });
 
